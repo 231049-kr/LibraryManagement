@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	    <title>クイック・メモ帳</title>
+	    <style>
+	        body { font-family: sans-serif; max-width: 500px; margin: 20px auto; padding: 10px; }
+	        textarea { width: 100%; height: 100px; margin-bottom: 10px; }
+	        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+	        button { cursor: pointer; padding: 8px 16px; }
+	        .save-btn { background-color: #4CAF50; color: white; border: none; }
+	        .clear-btn { background-color: #f44336; color: white; border: none; }
+	        #memoList { border-top: 1px solid #ccc; padding-top: 10px; }
+	        .memo-item { background: #f9f9f9; border: 1px solid #ddd; padding: 10px; margin-bottom: 5px; position: relative; border-radius: 4px; }
+	    </style>
+</head>
+<body>
+
+	    <h2>📝 シンプルメモ帳</h2>
+	    
+	    <textarea id="memoInput" placeholder="メモを入力してください..."></textarea>
+	    
+	    <div class="controls">
+	        <button class="save-btn" onclick="saveMemo()">保存する</button>
+	        <button class="clear-btn" onclick="clearAll()">すべて削除</button>
+	    </div>
+
+	    <h3>保存済みメモ</h3>
+	    <div id="memoList"></div>
+
+	    <script>
+	        // ページ読み込み時に保存されたデータを表示
+	        window.onload = displayMemos;
+
+	        // メモを保存する関数
+	        function saveMemo() {
+	            const input = document.getElementById('memoInput');
+	            const memoText = input.value.trim();
+
+	            if (memoText === "") {
+	                alert("内容を入力してください");
+	                return;
+	            }
+
+	            // 既存のメモを取得して新しいメモを追加
+	            const storedMemos = JSON.parse(localStorage.getItem('myMemos')) || [];
+	            storedMemos.push(memoText);
+
+	            // ローカルストレージに保存
+	            localStorage.setItem('myMemos', JSON.stringify(storedMemos));
+
+	            input.value = ""; // 入力欄を空にする
+	            displayMemos();
+	        }
+
+	        // メモを表示する関数
+	        function displayMemos() {
+	            const list = document.getElementById('memoList');
+	            const storedMemos = JSON.parse(localStorage.getItem('myMemos')) || [];
+
+	            list.innerHTML = storedMemos.map((memo, index) => `
+	                <div class="memo-item">
+	                    ${memo}
+	                </div>
+	            `).reverse().join(''); // 新しい順に表示
+	        }
+
+	        // すべて削除する関数
+	        function clearAll() {
+	            if (confirm("すべてのメモを削除しますか？")) {
+	                localStorage.removeItem('myMemos');
+	                displayMemos();
+	            }
+	        }
+	    </script>
+</body>
+</html>
