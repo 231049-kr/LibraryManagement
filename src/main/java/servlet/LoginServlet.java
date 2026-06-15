@@ -32,21 +32,24 @@ public class LoginServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String id = request.getParameter("id");
 		String pass = request.getParameter("password");
-		
+		String test = null;
 		//空白チェック
 		
-		if(id != null && id.length() != 0) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/LoginResult.jsp");
-			dispatcher.forward(request, response);
+		if(id != null && id.length() > 0) {
+			
+			test = "WEB-INF/jsp/Usermenuscreen.jsp";
+			
 		}
-		if(pass != null && pass.length() != 0) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/LoginResult.jsp");
-			dispatcher.forward(request, response);
+		if(pass != null && pass.length() > 0) {
+			
+			test = "WEB-INF/jsp/Usermenuscreen.jsp";
 		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/Usermenuscreen.jsp");
+		if(test == null) {
+			test = "WEB-INF/jsp/LoginResult.jsp";
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher(test);
 		dispatcher.forward(request, response);
-		
 	}
 
 }
