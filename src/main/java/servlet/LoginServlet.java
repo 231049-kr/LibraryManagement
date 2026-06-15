@@ -9,25 +9,26 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class LoginServlet
- */
+
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
     public LoginServlet() {
-        super();
-        // TODO Auto-generated constructor stub
+       
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
+	       .forward(request, response);
+		
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		request.setCharacterEncoding("UTF-8");
 		String id = request.getParameter("id");
 		String pass = request.getParameter("password");
@@ -35,23 +36,17 @@ public class LoginServlet extends HttpServlet {
 		//空白チェック
 		
 		if(id != null && id.length() != 0) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("LoginError");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/LoginResult.jsp");
 			dispatcher.forward(request, response);
 		}
 		if(pass != null && pass.length() != 0) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("LoginError");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/LoginResult.jsp");
 			dispatcher.forward(request, response);
 		}
 		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/Usermenuscreen.jsp");
+		dispatcher.forward(request, response);
 		
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }
