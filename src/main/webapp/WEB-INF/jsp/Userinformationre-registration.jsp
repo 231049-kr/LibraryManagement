@@ -9,9 +9,9 @@
 <body>
 <h1>ユーザー情報再登録</h1>
 <form action="Login" method="post">
-氏名 : <input type="text" name="name"><br>
-ID : <input type="text" name="name"><br>
-パスワード : <input type="password" name="pass"><br>
+氏名 : <input type="text" name="userName"><br>
+ID : <input type="text" name="userId"><br>
+パスワード : <input type="password" name="password"><br>
 <input type="submit" value="登録">
 </form>
 </body>
