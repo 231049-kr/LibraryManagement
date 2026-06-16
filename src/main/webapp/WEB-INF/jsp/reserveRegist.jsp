@@ -12,7 +12,7 @@
 
 <p>予約を登録しますか？</p>
 
-<form action="reserveComplete.jsp"mthod="get">
+<form action="reserveComplete.jsp"method="get">
 	<input type="submit"value="登録">
 </form>
 

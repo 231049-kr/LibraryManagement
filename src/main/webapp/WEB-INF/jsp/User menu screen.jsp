@@ -8,9 +8,9 @@
 </head>
 <body>
 <h1>メニュー</h1>
-<a href="">図書検索</a><br>
-<a href="">貸出状況確認</a><br>
-<a href="">予約</a><br>
-<a href="">自身の情報照会</a><br>
+<a href="search.jsp">図書検索</a><br>
+<a href="rentalStatus.jsp">貸出状況確認</a><br>
+<a href="reserve.jsp">予約</a><br>
+<a href="userInfo.jsp">自身の情報照会</a><br>
 </body>
 </html>
