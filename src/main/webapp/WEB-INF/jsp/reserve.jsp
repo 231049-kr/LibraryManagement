@@ -13,7 +13,9 @@
 <form action=""method="get">
 	書名：
 	<input type="text"name="bookName">
-	<input type="submit"value="在庫確認">
+	著名：
+	<input type="text"name="author">
+	<input type="submit"value="確認">
 </form>
 
 <br>
