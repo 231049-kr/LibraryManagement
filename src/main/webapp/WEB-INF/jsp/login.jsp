@@ -9,8 +9,13 @@
 <body>
 <h1>ログイン</h1>
 <form action="LoginServlet" method="post">
+<<<<<<< HEAD
 ID : <input type="text" name="name"><br>
 パスワード : <input type="password" name="pass"><br>
+=======
+ID : <input type="text" name="id"><br>
+パスワード : <input type="password" name="password"><br>
+>>>>>>> branch 'master' of https://github.com/231049-kr/LibraryManagement
 <input type="submit" value="ログイン">
 </form>
 </body>
