@@ -18,14 +18,14 @@ public class BookSearch extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/WEB-INF/jsp/Usermenuscreen.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/BookSearch.jsp")
 	       .forward(request, response);
 		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/WEB-INF/jsp/BookSearch.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/Usermenuscreen.jsp")
 			.forward(request, response);
 	}
 
