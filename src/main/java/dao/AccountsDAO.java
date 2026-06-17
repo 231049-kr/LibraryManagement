@@ -34,6 +34,7 @@ public class AccountsDAO {
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, user.getId());
 			pStmt.setString(2, user.getPass());
+			pStmt.setString(3, user.getName());
 			
 			ResultSet rs = pStmt.executeQuery();
 			
