@@ -4,16 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>在庫確認</title>
+<title>自身の情報照会</title>
 </head>
 <body>
-
-<h1>在庫確認</h1>
-
-
-<form action="reserveRegist.jsp"method="get">
-	<input type="submit"value="予約登録">
-</form>
-
+<h1>利用者情報</h1>
 </body>
 </html>

@@ -9,9 +9,9 @@
 <body>
 <h1>図書検索</h1>
 <form action="Login" method="post">
-書名 : <input type="text" name="bookName"><br>
-著者 : <input type="text" name="author"><br>
-分類 : <input type="text" name="category"><br>
+著名 : <input type="text" name="name"><br>
+著者 : <input type="text" name="name"><br>
+分類 : <input type="text" name="name"><br>
 <input type="submit" value="検索">
 </form>
 </body>
