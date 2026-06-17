@@ -8,6 +8,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import dao.AccountsDAO;
+import model.User;
 
 
 @WebServlet("/LoginServlet")
@@ -30,6 +34,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+		User user = new User();
 		String id = request.getParameter("id");
 		String pass = request.getParameter("password");
 		String test = null;
@@ -48,6 +53,18 @@ public class LoginServlet extends HttpServlet {
 		if(test == null) {
 			test = "WEB-INF/jsp/LoginResult.jsp";
 		}
+		
+		AccountsDAO dao = new AccountsDAO();
+		User loginUser = dao.findByUser(user);
+		
+		if(loginUser != null) {
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser", loginUser);
+			
+			test = "WEB-INF/jsp/Usermenuscreen.jsp";
+		}
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(test);
 		dispatcher.forward(request, response);
 	}
