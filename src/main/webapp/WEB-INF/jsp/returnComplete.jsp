@@ -4,16 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>在庫確認</title>
+<title>返却</title>
 </head>
 <body>
+<h1>返却完了</h1>
 
-<h1>在庫確認</h1>
+<p>返却が完了しました</p>
 
+<a href=""></a>
 
-<form action="reserveRegist.jsp"method="get">
-	<input type="submit"value="予約登録">
-</form>
+<a href="menu.jsp">メニューへ戻る</a>
 
 </body>
 </html>
