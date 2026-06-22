@@ -10,7 +10,33 @@ public class Book {
 		this.bid = bid;
 	}
 	
-	public String getbname() {return bname;}
-	public String getbid() {return bid;}
+	public Book(String bname) {
+		this.bname = bname;
+		this.bid = BookIDGenerator.generateWithPrefix();
+	}
+	
+	// Getter/Setter
+	public String getBname() {
+		return bname;
+	}
+	
+	public void setBname(String bname) {
+		this.bname = bname;
+	}
+	
+	public String getBid() {
+		return bid;
+	}
+	
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+	
+	/**
+	 * 図書の情報を表示用の文字列で返す
+	 */
+	@Override
+	public String toString() {
+		return "Book [図書名=" + bname + ", 図書ID=" + bid + "]";
+	}
 }
-
