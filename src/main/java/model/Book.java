@@ -14,6 +14,7 @@ public class Book {
 		this.category = category;
 	}
 	
+<<<<<<< HEAD
 	public int getId() {return id;}
 	public void setId(int id) {
 		this.id = id;
@@ -29,6 +30,35 @@ public class Book {
 	public String getCategory() {return category;}
 	public void setCategory(String category) {
 		this.category = category;
+=======
+	public Book(String bname) {
+		this.bname = bname;
+		this.bid = BookIDGenerator.generateWithPrefix();
+	}
+	
+	// Getter/Setter
+	public String getBname() {
+		return bname;
+	}
+	
+	public void setBname(String bname) {
+		this.bname = bname;
+	}
+	
+	public String getBid() {
+		return bid;
+	}
+	
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+	
+	/**
+	 * 図書の情報を表示用の文字列で返す
+	 */
+	@Override
+	public String toString() {
+		return "Book [図書名=" + bname + ", 図書ID=" + bid + "]";
+>>>>>>> branch 'master' of https://github.com/231049-kr/LibraryManagement
 	}
 }
-
