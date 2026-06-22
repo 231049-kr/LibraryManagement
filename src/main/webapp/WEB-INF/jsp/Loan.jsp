@@ -15,6 +15,8 @@
 	<input type="text" name="UserId"><br><br>
 	
 	図書ID:
+	<input type="text" name="bookId"><br><br>
+	
 	<input type="submit" value="貸出確認">
 	
 </form>
