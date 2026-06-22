@@ -8,9 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-import dao.AccountsDAO;
 import model.User;
 
 
@@ -26,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/Usermenuscreen.jsp")
 	       .forward(request, response);
 		
 	}
@@ -37,24 +35,24 @@ public class LoginServlet extends HttpServlet {
 		User user = new User();
 		String id = request.getParameter("id");
 		String pass = request.getParameter("password");
-		String test = null;
+		String url = null;
 		//空白チェック
 		
 		if(id != null && id.length() > 0) {
 			
-			test = "WEB-INF/jsp/Usermenuscreen.jsp";
+			url = "WEB-INF/jsp/Usermenuscreen.jsp";
 			
 		}
 		if(pass != null && pass.length() > 0) {
 			
-			test = "WEB-INF/jsp/Usermenuscreen.jsp";
+			url = "WEB-INF/jsp/Usermenuscreen.jsp";
 		}
 		
-		if(test == null) {
-			test = "WEB-INF/jsp/LoginResult.jsp";
+		if(url == null) {
+			url = "WEB-INF/jsp/LoginResult.jsp";
 		}
 		
-		AccountsDAO dao = new AccountsDAO();
+		/*AccountsDAO dao = new AccountsDAO();
 		User loginUser = dao.findByUser(user);
 		
 		if(loginUser != null) {
@@ -62,10 +60,10 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);
 			
-			test = "WEB-INF/jsp/Usermenuscreen.jsp";
-		}
+			url = "WEB-INF/jsp/Usermenuscreen.jsp";
+		}*/
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher(test);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
 
