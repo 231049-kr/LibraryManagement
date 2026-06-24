@@ -10,7 +10,7 @@
 
 <h1>図書予約</h1>
 
-<form action=""method="get">
+<form action=""method="post">
 	書名：
 	<input type="text"name="bookName">
 	著名：
