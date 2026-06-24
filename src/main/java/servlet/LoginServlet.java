@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import dao.AccountsDAO;
 import model.User;
 
 
@@ -25,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/WEB-INF/jsp/Usermenuscreen.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
 	       .forward(request, response);
 		
 	}
@@ -36,24 +37,24 @@ public class LoginServlet extends HttpServlet {
 		User user = new User();
 		String id = request.getParameter("id");
 		String pass = request.getParameter("password");
-		String url = null;
+		String test = null;
 		//空白チェック
 		
 		if(id != null && id.length() > 0) {
 			
-			url = "WEB-INF/jsp/Usermenuscreen.jsp";
+			test = "WEB-INF/jsp/Usermenuscreen.jsp";
 			
 		}
 		if(pass != null && pass.length() > 0) {
 			
-			url = "WEB-INF/jsp/Usermenuscreen.jsp";
+			test = "WEB-INF/jsp/Usermenuscreen.jsp";
 		}
 		
-		if(url == null) {
-			url = "WEB-INF/jsp/LoginResult.jsp";
+		if(test == null) {
+			test = "WEB-INF/jsp/LoginResult.jsp";
 		}
 		
-		/*AccountsDAO dao = new AccountsDAO();
+		AccountsDAO dao = new AccountsDAO();
 		User loginUser = dao.findByUser(user);
 		
 		if(loginUser != null) {
@@ -61,11 +62,18 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);
 			
+<<<<<<< HEAD
 			url = "WEB-INF/jsp/Usermenuscreen.jsp";
 		}*/
 		//データベース接続時には以下をコメントアウトする。完成時に削除する
 		HttpSession session = request.getSession();
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+=======
+			test = "WEB-INF/jsp/Usermenuscreen.jsp";
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher(test);
+>>>>>>> branch 'master' of https://github.com/231049-kr/LibraryManagement
 		dispatcher.forward(request, response);
 	}
 

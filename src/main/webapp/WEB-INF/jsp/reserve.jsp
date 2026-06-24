@@ -20,7 +20,7 @@
 
 <br>
 
-<a href="LoginServlet">メニューへ戻る</a>
+<a href="menu.jsp">メニューへ戻る</a>
 
 </body>
 </html>
