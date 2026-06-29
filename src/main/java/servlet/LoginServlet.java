@@ -62,10 +62,18 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);
 			
+<<<<<<< HEAD
+			url = "WEB-INF/jsp/Usermenuscreen.jsp";
+		}*/
+		//データベース接続時には以下をコメントアウトする。完成時に削除する
+		HttpSession session = request.getSession();
+		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+=======
 			test = "WEB-INF/jsp/Usermenuscreen.jsp";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(test);
+>>>>>>> branch 'master' of https://github.com/231049-kr/LibraryManagement
 		dispatcher.forward(request, response);
 	}
 
