@@ -37,21 +37,21 @@ public class LoginServlet extends HttpServlet {
 		User user = new User();
 		String id = request.getParameter("id");
 		String pass = request.getParameter("password");
-		String test = null;
+		String url = null;
 		//空白チェック
 		
 		if(id != null && id.length() > 0) {
 			
-			test = "WEB-INF/jsp/Usermenuscreen.jsp";
+			url = "WEB-INF/jsp/Usermenuscreen.jsp";
 			
 		}
 		if(pass != null && pass.length() > 0) {
 			
-			test = "WEB-INF/jsp/Usermenuscreen.jsp";
+			url = "WEB-INF/jsp/Usermenuscreen.jsp";
 		}
 		
-		if(test == null) {
-			test = "WEB-INF/jsp/LoginResult.jsp";
+		if(url == null) {
+			url = "WEB-INF/jsp/LoginResult.jsp";
 		}
 		
 		AccountsDAO dao = new AccountsDAO();
@@ -62,19 +62,16 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);
 			
-<<<<<<< HEAD
 			url = "WEB-INF/jsp/Usermenuscreen.jsp";
-		}*/
+		}
 		//データベース接続時には以下をコメントアウトする。完成時に削除する
 		HttpSession session = request.getSession();
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-=======
-			test = "WEB-INF/jsp/Usermenuscreen.jsp";
-		}
+		url = "WEB-INF/jsp/Usermenuscreen.jsp";
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher(test);
->>>>>>> branch 'master' of https://github.com/231049-kr/LibraryManagement
-		dispatcher.forward(request, response);
+		RequestDispatcher dispatcher1 = request.getRequestDispatcher("BookSearchResult.jsp"); 
+		dispatcher1.forward(request, response);
+
 	}
 
 }

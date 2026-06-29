@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.util.digester.ArrayStack;
+
 import model.Book;
 
 /**
@@ -204,5 +206,31 @@ public class BookDAO {
 			System.err.println("✗ テーブルの作成に失敗しました");
 			e.printStackTrace();
 		}
+	}
+	
+	public List<BookDAO> findAll(){
+		
+		List<BookDAO> stock = new ArrayStack<>();
+		
+		try(Connection con = DBUtil.getConnection();
+		        PreparedStatement ps = con.prepareStatement(sql);
+		        ResultSet rs = ps.executeQuery()) {
+
+		        while(rs.next()) {
+		            Stock stock = new Stock();
+
+		            stock.setItemId(rs.getInt("item_id"));
+		            stock.setItemName(rs.getString("item_name"));
+		            stock.setQuantity(rs.getInt("quantity"));
+		            stock.setPrice(rs.getInt("price"));
+
+		            list.add(stock);
+		        }
+		    } catch(Exception e) {
+		        e.printStackTrace();
+		    }
+
+		return stock;
+		
 	}
 }

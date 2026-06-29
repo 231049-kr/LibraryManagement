@@ -5,6 +5,8 @@ public class Book {
 	private String title;
 	private String name;
 	private String category;
+	private String bname;
+	private String bid;
 	
 	public Book() {}
 	public Book(int id, String title, String name,  String category ) {
@@ -14,7 +16,7 @@ public class Book {
 		this.category = category;
 	}
 	
-<<<<<<< HEAD
+
 	public int getId() {return id;}
 	public void setId(int id) {
 		this.id = id;
@@ -28,9 +30,11 @@ public class Book {
 		this.name = name;
 	}
 	public String getCategory() {return category;}
+	
 	public void setCategory(String category) {
 		this.category = category;
-=======
+	}
+	
 	public Book(String bname) {
 		this.bname = bname;
 		this.bid = BookIDGenerator.generateWithPrefix();
@@ -59,6 +63,6 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [図書名=" + bname + ", 図書ID=" + bid + "]";
->>>>>>> branch 'master' of https://github.com/231049-kr/LibraryManagement
+
 	}
 }
