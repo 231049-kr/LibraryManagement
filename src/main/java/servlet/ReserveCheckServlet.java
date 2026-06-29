@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import dao.BookDAO;
+import model.Book;
 
 /**
  * Servlet implementation class ReserveCheckServlet
@@ -24,7 +25,7 @@ public class ReserveCheckServlet extends HttpServlet {
 		
 		BookDAO dao = new BookDAO();
 		
-		List<Book> bookList = dao.Book();
+		List<Book> bookList =  dao.selectAllBooks();
 		
 		request.setAttribute("bookList", bookList);
 		
