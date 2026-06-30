@@ -10,8 +10,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.BookDAO;
+import dao.BookSearchDAO;
 import model.Book;
+
+
 
 /**
  * Servlet implementation class ReserveCheckServlet
@@ -23,15 +25,22 @@ public class ReserveCheckServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		BookDAO dao = new BookDAO();
+		BookSearchDAO dao = new BookSearchDAO();
 		
-		List<Book> bookList =  dao.selectAllBooks();
 		
-		request.setAttribute("bookList", bookList);
+		String bookName = request.getParameter("bookName");
+		String author = request.getParameter("author");
+		
+		List<Book>BookList = dao.search();
+		
+		if((bookList).getName().equals(bookName)) {
+			
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/Reserve");
+		dispatcher.forward(request, response);
+		
 	}
-
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
