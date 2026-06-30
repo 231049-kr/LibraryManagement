@@ -13,5 +13,6 @@
 <a href="Loan.jsp">貸出画面</a><br>
 <a href="return.jsp">返却画面</a><br>
 <a href="delayList.jsp">延滞一覧</a><br>
+<a href="BookManagement.jsp">蔵書管理</a><br>
 </body>
 </html>

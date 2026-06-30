@@ -12,17 +12,19 @@
 
 <h2>貸出中図書一覧</h2>
 
-<table border="1"
+<table border="1">
 <tr>
 	<th>図書ID</th>
     <th>書名</th>
     <th>貸出日</th>
     <th>返却期限</th>
 </tr>
-<%
+
 <tr>
+
+
 </tr>
-%>
+
 
 </table>
 

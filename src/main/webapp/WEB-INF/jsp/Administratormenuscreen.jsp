@@ -12,5 +12,6 @@
 <a href="">司書アカウント管理</a><br>
 <a href="">マスタ管理</a><br>
 <a href="">各種照会</a><br>
+<a href="">蔵書管理</a><br>
 </body>
 </html>
