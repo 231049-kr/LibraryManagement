@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,63 +98,47 @@ public class BookSearchDAO {
 	}
 	
 	/**
-	 * タイトルのみで検索します
-	 * 
-	 * @param title 図書タイトル（キーワード）
-	 * @return マッチした図書オブジェクトのリスト
-	 */
+	 * タイトルのみで検索
+	*/
 	public List<Book> searchByTitle(String title) {
 		return search(title, null, null);
 	}
 	
 	/**
-	 * 著者名のみで検索します
-	 * 
-	 * @param author 著者名（キーワード）
-	 * @return マッチした図書オブジェクトのリスト
+	 * 著者名のみで
+	 
 	 */
 	public List<Book> searchByAuthor(String author) {
 		return search(null, author, null);
 	}
 	
 	/**
-	 * カテゴリーのみで検索します
-	 * 
-	 * @param category カテゴリー
-	 * @return マッチした図書オブジェクトのリスト
+	 * カテゴリーのみで検索
+	
 	 */
 	public List<Book> searchByCategory(String category) {
 		return search(null, null, category);
 	}
 	
 	/**
-	 * タイトルと著者で検索します
-	 * 
-	 * @param title 図書タイトル（キーワード）
-	 * @param author 著者名（キーワード）
-	 * @return マッチした図書オブジェクトのリスト
+	 * タイトルと著者で検索
+	
 	 */
 	public List<Book> searchByTitleAndAuthor(String title, String author) {
 		return search(title, author, null);
 	}
 	
 	/**
-	 * タイトルとカテゴリーで検索します
-	 * 
-	 * @param title 図書タイトル（キーワード）
-	 * @param category カテゴリー
-	 * @return マッチした図書オブジェクトのリスト
+	 * タイトルとカテゴリーで検索
+	
 	 */
 	public List<Book> searchByTitleAndCategory(String title, String category) {
 		return search(title, null, category);
 	}
 	
 	/**
-	 * 著者とカテゴリーで検索します
-	 * 
-	 * @param author 著者名（キーワード）
-	 * @param category カテゴリー
-	 * @return マッチした図書オブジェクトのリスト
+	 * 著者とカテゴリーで検索
+	
 	 */
 	public List<Book> searchByAuthorAndCategory(String author, String category) {
 		return search(null, author, category);
