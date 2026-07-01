@@ -6,10 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.tomcat.util.digester.ArrayStack;
 
 import model.Book;
 
@@ -19,10 +19,19 @@ import model.Book;
  */
 public class BookDAO {
 	
-	// JDBC接続情報
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/library_db";
-	private static final String DB_USER = "root";
-	private static final String DB_PASSWORD = "password"; 
+	// JDBC接続情報（環境変数から取得、デフォルト値あり）
+	private static final String DB_URL = System.getenv("DB_URL") != null 
+		? System.getenv("DB_URL") 
+		: "jdbc:mysql://localhost:3306/tutorial_memo_db";
+	
+	private static final String DB_USER = System.getenv("DB_USER") != null 
+		? System.getenv("DB_USER") 
+		: "appuser";
+	
+	private static final String DB_PASSWORD = System.getenv("DB_PASSWORD") != null 
+		? System.getenv("DB_PASSWORD") 
+		: "password";
+	
 	private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
 	
 	/**
@@ -44,13 +53,16 @@ public class BookDAO {
 	 * @return 挿入に成功したかどうか（true：成功、false：失敗）
 	 */
 	public static boolean insertBook(Book book) {
-		String sql = "INSERT INTO books (bid, bname) VALUES (?, ?)";
+		String sql = "INSERT INTO books (title, author, publisher, category, quantity) VALUES (?, ?, ?, ?, ?)";
 		
 		try (Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			
-			pstmt.setString(1, book.getBid());
-			pstmt.setString(2, book.getBname());
+			pstmt.setString(1, book.getTitle());
+			pstmt.setString(2, book.getAuthor());
+			pstmt.setString(3, book.getPublisher());
+			pstmt.setString(4, book.getCategory());
+			pstmt.setInt(5, book.getQuantity());
 			
 			int result = pstmt.executeUpdate();
 			System.out.println("✓ 図書が正常に挿入されました: " + book.toString());
@@ -66,27 +78,37 @@ public class BookDAO {
 	/**
 	 * 図書IDで図書情報を検索します
 	 * 
-	 * @param bid 検索する図書ID
+	 * @param bookId 検索する図書ID
 	 * @return 図書オブジェクト（見つからない場合はnull）
 	 */
-	public static Book selectBookById(String bid) {
-		String sql = "SELECT * FROM books WHERE bid = ?";
+	public static Book selectBookById(int bookId) {
+		String sql = "SELECT book_id, title, author, publisher, category, quantity, created_at FROM books WHERE book_id = ?";
 		
 		try (Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			
-			pstmt.setString(1, bid);
+			pstmt.setInt(1, bookId);
 			ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
 				Book book = new Book();
-				book.setBid(rs.getString("bid"));
-				book.setBname(rs.getString("bname"));
+				book.setBookId(rs.getInt("book_id"));
+				book.setTitle(rs.getString("title"));
+				book.setAuthor(rs.getString("author"));
+				book.setPublisher(rs.getString("publisher"));
+				book.setCategory(rs.getString("category"));
+				book.setQuantity(rs.getInt("quantity"));
+				
+				Timestamp ts = rs.getTimestamp("created_at");
+				if (ts != null) {
+					book.setCreatedAt(ts.toLocalDateTime());
+				}
+				
 				System.out.println("✓ 図書が見つかりました: " + book.toString());
 				return book;
 			}
 			
-			System.out.println("✗ 図書ID '" + bid + "' は見つかりませんでした");
+			System.out.println("✗ 図書ID '" + bookId + "' は見つかりませんでした");
 			return null;
 			
 		} catch (SQLException | ClassNotFoundException e) {
@@ -97,13 +119,99 @@ public class BookDAO {
 	}
 	
 	/**
+	 * カテゴリーで図書情報を検索します
+	 * 
+	 * @param category 検索するカテゴリー
+	 * @return 図書オブジェクトのリスト
+	 */
+	public static List<Book> selectBooksByCategory(String category) {
+		List<Book> books = new ArrayList<>();
+		String sql = "SELECT book_id, title, author, publisher, category, quantity, created_at FROM books WHERE category = ?";
+		
+		try (Connection conn = getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			
+			pstmt.setString(1, category);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Book book = new Book();
+				book.setBookId(rs.getInt("book_id"));
+				book.setTitle(rs.getString("title"));
+				book.setAuthor(rs.getString("author"));
+				book.setPublisher(rs.getString("publisher"));
+				book.setCategory(rs.getString("category"));
+				book.setQuantity(rs.getInt("quantity"));
+				
+				Timestamp ts = rs.getTimestamp("created_at");
+				if (ts != null) {
+					book.setCreatedAt(ts.toLocalDateTime());
+				}
+				
+				books.add(book);
+			}
+			
+			System.out.println("✓ カテゴリー'" + category + "' の図書 " + books.size() + "件が取得されました");
+			return books;
+			
+		} catch (SQLException | ClassNotFoundException e) {
+			System.err.println("✗ 図書の検索に失敗しました");
+			e.printStackTrace();
+			return books;
+		}
+	}
+	
+	/**
+	 * タイトルで図書情報を検索します（部分一致）
+	 * 
+	 * @param titleKeyword 検索するキーワード
+	 * @return 図書オブジェクトのリスト
+	 */
+	public static List<Book> selectBooksByTitleKeyword(String titleKeyword) {
+		List<Book> books = new ArrayList<>();
+		String sql = "SELECT book_id, title, author, publisher, category, quantity, created_at FROM books WHERE title LIKE ?";
+		
+		try (Connection conn = getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			
+			pstmt.setString(1, "%" + titleKeyword + "%");
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Book book = new Book();
+				book.setBookId(rs.getInt("book_id"));
+				book.setTitle(rs.getString("title"));
+				book.setAuthor(rs.getString("author"));
+				book.setPublisher(rs.getString("publisher"));
+				book.setCategory(rs.getString("category"));
+				book.setQuantity(rs.getInt("quantity"));
+				
+				Timestamp ts = rs.getTimestamp("created_at");
+				if (ts != null) {
+					book.setCreatedAt(ts.toLocalDateTime());
+				}
+				
+				books.add(book);
+			}
+			
+			System.out.println("✓ キーワード'" + titleKeyword + "' で " + books.size() + "件が見つかりました");
+			return books;
+			
+		} catch (SQLException | ClassNotFoundException e) {
+			System.err.println("✗ 図書の検索に失敗しました");
+			e.printStackTrace();
+			return books;
+		}
+	}
+	
+	/**
 	 * すべての図書情報を取得します
 	 * 
 	 * @return 図書オブジェクトのリスト
 	 */
 	public static List<Book> selectAllBooks() {
 		List<Book> books = new ArrayList<>();
-		String sql = "SELECT * FROM books";
+		String sql = "SELECT book_id, title, author, publisher, category, quantity, created_at FROM books ORDER BY book_id DESC";
 		
 		try (Connection conn = getConnection();
 			 Statement stmt = conn.createStatement();
@@ -111,8 +219,18 @@ public class BookDAO {
 			
 			while (rs.next()) {
 				Book book = new Book();
-				book.setBid(rs.getString("bid"));
-				book.setBname(rs.getString("bname"));
+				book.setBookId(rs.getInt("book_id"));
+				book.setTitle(rs.getString("title"));
+				book.setAuthor(rs.getString("author"));
+				book.setPublisher(rs.getString("publisher"));
+				book.setCategory(rs.getString("category"));
+				book.setQuantity(rs.getInt("quantity"));
+				
+				Timestamp ts = rs.getTimestamp("created_at");
+				if (ts != null) {
+					book.setCreatedAt(ts.toLocalDateTime());
+				}
+				
 				books.add(book);
 			}
 			
@@ -133,19 +251,23 @@ public class BookDAO {
 	 * @return 更新に成功したかどうか
 	 */
 	public static boolean updateBook(Book book) {
-		String sql = "UPDATE books SET bname = ? WHERE bid = ?";
+		String sql = "UPDATE books SET title = ?, author = ?, publisher = ?, category = ?, quantity = ? WHERE book_id = ?";
 		
 		try (Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			
-			pstmt.setString(1, book.getBname());
-			pstmt.setString(2, book.getBid());
+			pstmt.setString(1, book.getTitle());
+			pstmt.setString(2, book.getAuthor());
+			pstmt.setString(3, book.getPublisher());
+			pstmt.setString(4, book.getCategory());
+			pstmt.setInt(5, book.getQuantity());
+			pstmt.setInt(6, book.getBookId());
 			
 			int result = pstmt.executeUpdate();
 			if (result > 0) {
 				System.out.println("✓ 図書が正常に更新されました: " + book.toString());
 			} else {
-				System.out.println("✗ 図書ID '" + book.getBid() + "' は見つかりませんでした");
+				System.out.println("✗ 図書ID '" + book.getBookId() + "' は見つかりませんでした");
 			}
 			return result > 0;
 			
@@ -159,22 +281,22 @@ public class BookDAO {
 	/**
 	 * 図書情報を削除します
 	 * 
-	 * @param bid 削除する図書ID
+	 * @param bookId 削除する図書ID
 	 * @return 削除に成功したかどうか
 	 */
-	public static boolean deleteBook(String bid) {
-		String sql = "DELETE FROM books WHERE bid = ?";
+	public static boolean deleteBook(int bookId) {
+		String sql = "DELETE FROM books WHERE book_id = ?";
 		
 		try (Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			
-			pstmt.setString(1, bid);
+			pstmt.setInt(1, bookId);
 			int result = pstmt.executeUpdate();
 			
 			if (result > 0) {
-				System.out.println("✓ 図書ID '" + bid + "' が正常に削除されました");
+				System.out.println("✓ 図書ID '" + bookId + "' が正常に削除されました");
 			} else {
-				System.out.println("✗ 図書ID '" + bid + "' は見つかりませんでした");
+				System.out.println("✗ 図書ID '" + bookId + "' は見つかりませんでした");
 			}
 			return result > 0;
 			
@@ -191,10 +313,15 @@ public class BookDAO {
 	 */
 	public static void createTableIfNotExists() {
 		String sql = "CREATE TABLE IF NOT EXISTS books (" +
-					 "bid VARCHAR(50) PRIMARY KEY, " +
-					 "bname VARCHAR(255) NOT NULL, " +
-					 "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
-					 ")";
+					 "book_id INT NOT NULL AUTO_INCREMENT COMMENT '図書ID'," +
+					 "title VARCHAR(255) NOT NULL COMMENT '図書タイトル'," +
+					 "author VARCHAR(100) NOT NULL COMMENT '著者名'," +
+					 "publisher VARCHAR(100) NOT NULL COMMENT '出版社'," +
+					 "category VARCHAR(50) NOT NULL COMMENT 'カテゴリー'," +
+					 "quantity INT NOT NULL DEFAULT 1 COMMENT '数量'," +
+					 "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時'," +
+					 "PRIMARY KEY (book_id)" +
+					 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
 		
 		try (Connection conn = getConnection();
 			 Statement stmt = conn.createStatement()) {
@@ -206,31 +333,5 @@ public class BookDAO {
 			System.err.println("✗ テーブルの作成に失敗しました");
 			e.printStackTrace();
 		}
-	}
-	
-	public List<BookDAO> findAll(){
-		
-		List<BookDAO> stock = new ArrayStack<>();
-		
-		try(Connection con = DBUtil.getConnection();
-		        PreparedStatement ps = con.prepareStatement(sql);
-		        ResultSet rs = ps.executeQuery()) {
-
-		        while(rs.next()) {
-		            Stock stock = new Stock();
-
-		            stock.setItemId(rs.getInt("item_id"));
-		            stock.setItemName(rs.getString("item_name"));
-		            stock.setQuantity(rs.getInt("quantity"));
-		            stock.setPrice(rs.getInt("price"));
-
-		            list.add(stock);
-		        }
-		    } catch(Exception e) {
-		        e.printStackTrace();
-		    }
-
-		return stock;
-		
 	}
 }
