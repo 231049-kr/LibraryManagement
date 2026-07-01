@@ -1,68 +1,112 @@
 package model;
 
-public class Book {
-	private int id;
-	private String title;
-	private String name;
-	private String category;
-	private String bname;
-	private String bid;
-	
-	public Book() {}
-	public Book(int id, String title, String name,  String category ) {
-		this.id = id;
-		this.title = title;
-		this.name = name;
-		this.category = category;
-	}
-	
+import java.time.LocalDateTime;
 
-	public int getId() {return id;}
-	public void setId(int id) {
-		this.id = id;
+/**
+ * 図書情報を表すモデルクラス
+ */
+public class Book {
+	private int bookId;           // 図書ID (AUTO_INCREMENT)
+	private String title;         // 図書タイトル
+	private String author;        // 著者名
+	private String publisher;     // 出版社
+	private String category;      // カテゴリー
+	private int quantity;         // 数量
+	private LocalDateTime createdAt;  // 登録日時
+	
+	// デフォルトコンストラクタ
+	public Book() {}
+	
+	// コンストラクタ（主要フィールド）
+	public Book(String title, String author, String publisher, String category, int quantity) {
+		this.title = title;
+		this.author = author;
+		this.publisher = publisher;
+		this.category = category;
+		this.quantity = quantity;
 	}
-	public String getTitle() {return title;}
+	
+	// コンストラクタ（すべてのフィールド）
+	public Book(int bookId, String title, String author, String publisher, String category, int quantity, LocalDateTime createdAt) {
+		this.bookId = bookId;
+		this.title = title;
+		this.author = author;
+		this.publisher = publisher;
+		this.category = category;
+		this.quantity = quantity;
+		this.createdAt = createdAt;
+	}
+	
+	// ゲッター・セッター
+	public int getBookId() {
+		return bookId;
+	}
+	
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getName() {return name;}
-	public void setName(String name) {
-		this.name = name;
+	
+	public String getAuthor() {
+		return author;
 	}
-	public String getCategory() {return category;}
+	
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	
+	public String getPublisher() {
+		return publisher;
+	}
+	
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	
+	public String getCategory() {
+		return category;
+	}
 	
 	public void setCategory(String category) {
 		this.category = category;
 	}
 	
-	public Book(String bname) {
-		this.bname = bname;
-		this.bid = BookIDGenerator.generateWithPrefix();
+	public int getQuantity() {
+		return quantity;
 	}
 	
-	// Getter/Setter
-	public String getBname() {
-		return bname;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
-	public void setBname(String bname) {
-		this.bname = bname;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
 	
-	public String getBid() {
-		return bid;
-	}
-	
-	public void setBid(String bid) {
-		this.bid = bid;
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 	/**
-	 * 図書の情報を表示用の文字列で返す
+	 * 図書の情報を文字列で返す
 	 */
 	@Override
 	public String toString() {
-		return "Book [図書名=" + bname + ", 図書ID=" + bid + "]";
-
+		return "Book [" +
+				"bookId=" + bookId +
+				", title='" + title + '\'' +
+				", author='" + author + '\'' +
+				", publisher='" + publisher + '\'' +
+				", category='" + category + '\'' +
+				", quantity=" + quantity +
+				", createdAt=" + createdAt +
+				']';
 	}
 }
