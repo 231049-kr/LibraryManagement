@@ -33,7 +33,8 @@ public class BookSearchResult extends HttpServlet {
 		
 		request.setAttribute("books", books);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BookSearchResult.jsp"); //jspは仮置き
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/BookSearchResult.jsp");
+
 		dispatcher.forward(request, response);
 	}
 
