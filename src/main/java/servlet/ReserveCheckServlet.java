@@ -26,16 +26,14 @@ public class ReserveCheckServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		BookSearchDAO dao = new BookSearchDAO();
+
+		String title = null;
+		String name = null;
+		String category = null;
+		
+		List<Book> list = dao.search(title, name, category);
 		
 		
-		String bookName = request.getParameter("bookName");
-		String author = request.getParameter("author");
-		
-		List<Book>BookList = dao.search();
-		
-		if((bookList).getName().equals(bookName)) {
-			
-		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/Reserve");
 		dispatcher.forward(request, response);
