@@ -31,47 +31,35 @@ public class LoginServlet extends HttpServlet {
 		
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
-		User user = new User();
-		String id = request.getParameter("id");
-		String pass = request.getParameter("password");
-		String url = null;
-		//空白チェック
-		
-		if(id != null && id.length() > 0) {
-			
-			url = "WEB-INF/jsp/Usermenuscreen.jsp";
-			
-		}
-		if(pass != null && pass.length() > 0) {
-			
-			url = "WEB-INF/jsp/Usermenuscreen.jsp";
-		}
-		
-		if(url == null) {
-			url = "WEB-INF/jsp/LoginResult.jsp";
-		}
-		
-		AccountsDAO dao = new AccountsDAO();
-		User loginUser = dao.findByUser(user);
-		
-		if(loginUser != null) {
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", loginUser);
-			
-			url = "WEB-INF/jsp/Usermenuscreen.jsp";
-		}
-		//データベース接続時には以下をコメントアウトする。完成時に削除する
-		HttpSession session = request.getSession();
-		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-		url = "WEB-INF/jsp/Usermenuscreen.jsp";
-		
-		RequestDispatcher dispatcher1 = request.getRequestDispatcher("BookSearchResult.jsp"); 
-		dispatcher1.forward(request, response);
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+	        throws ServletException, IOException {
+	    request.setCharacterEncoding("UTF-8");
+	    
+	    String id = request.getParameter("id");  // JSPと合わせて修正
+	    String pass = request.getParameter("password");
+	    String url = "WEB-INF/jsp/LoginResult.jsp";
+	    
+	    // バリデーション: 両方の入力値が必須
+	    if (id == null || id.isEmpty() || pass == null || pass.isEmpty()) {
+	        request.setAttribute("error", "IDとパスワードを入力してください");
+	    } else {
+	        User user = new User();
+	        user.setId(id);
+	        user.setPass(pass);
+	        
+	        AccountsDAO dao = new AccountsDAO();
+	        User loginUser = dao.findByUser(user);
+	        
+	        if (loginUser != null) {
+	            HttpSession session = request.getSession();
+	            session.setAttribute("loginUser", loginUser);
+	            url = "WEB-INF/jsp/Usermenuscreen.jsp";
+	        } else {
+	            request.setAttribute("error", "ログイン情報が正しくありません");
+	        }
+	    }
+	    
+	    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+	    dispatcher.forward(request, response);
 	}
-
 }

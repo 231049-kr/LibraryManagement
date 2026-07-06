@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.BookSearchDAO;
+import dao.BookDAO;
 import model.Book;
 
 
@@ -21,27 +21,23 @@ import model.Book;
 @WebServlet("/ReserveCheckServlet")
 public class ReserveCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		BookSearchDAO dao = new BookSearchDAO();
+	    try {
+	        BookDAO dao = new BookDAO();
+	        List<Book> bookList = dao.selectAllBooks();
+	        request.setAttribute("bookList", bookList);
+	        
+	        // ✓ forward() を追加
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/Reserve.jsp"); 
+	        dispatcher.forward(request, response);
+	    } catch (Exception e) {
+	        request.setAttribute("error", "データの取得に失敗しました");
+	        request.getRequestDispatcher("WEB-INF/jsp/error.jsp").forward(request, response);
+	    }
 
-		String title = null;
-		String name = null;
-		String category = null;
-		
-		List<Book> list = dao.search(title, name, category);
-		
-		
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/Reserve");
-		dispatcher.forward(request, response);
-		
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
-
 }
