@@ -17,7 +17,7 @@ import model.Book;
 public class BookSearchDAO {
 	
 	/**
-	 * 複数条件で図書を検索します
+	 * 複数条件で図書を検索
 	 * 
 	 * @param title 図書タイトル（キーワード）- nullまたは空文字列で条件なし
 	 * @param author 著者名（キーワード）- nullまたは空文字列で条件なし

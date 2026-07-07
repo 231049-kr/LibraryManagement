@@ -186,7 +186,7 @@ public class BookDAO {
 	}
 	
 	/**
-	 * 図書情報を削除します
+	 * 図書情報を削除
 	 * 
 	 * @param bookId 削除する図書ID
 	 * @return 削除に成功したかどうか
