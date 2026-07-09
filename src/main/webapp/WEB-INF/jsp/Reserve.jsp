@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +50,7 @@
           <td>${book.author}</td>
           <td>${book.category}</td>
           <td>
-            <form action="reserveRegist.jsp" method="post" style="display:inline;">
+            <form action="ReserveRegist" method="post" style="display:inline;">
               <input type="hidden" name="bookId" value="${book.id}">
               <button type="submit">予約する</button>
             </form>
@@ -62,7 +61,7 @@
   </table>
 </c:if>
 
-<a href="Usermenuscreen.jsp">メニューに戻る</a>
+<a href="UserMenuServlet">メニューに戻る</a>
 
 </body>
 </html>

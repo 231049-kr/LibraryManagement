@@ -13,7 +13,7 @@
 
 <a href=""></a>
 
-<a href="menu.jsp">メニューへ戻る</a>
+<a href="UserMenuServlet">メニューへ戻る</a>
 
 </body>
 </html>

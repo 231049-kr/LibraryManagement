@@ -11,7 +11,7 @@
 
 <p>予約が完了しました。</p>
 
-<a href="menu.jsp">メニューへ戻る</a>
+<a href="UserMenuServlet">メニューへ戻る</a>
 
 </body>
 </html>
