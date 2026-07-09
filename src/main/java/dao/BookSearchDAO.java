@@ -17,7 +17,7 @@ import model.Book;
 public class BookSearchDAO {
 	
 	/**
-	 * 複数条件で図書を検索します
+	 * 複数条件で図書を検索
 	 * 
 	 * @param title 図書タイトル（キーワード）- nullまたは空文字列で条件なし
 	 * @param author 著者名（キーワード）- nullまたは空文字列で条件なし
@@ -87,16 +87,15 @@ public class BookSearchDAO {
 				books.add(book);
 			}
 			
-			System.out.println("✓ 検索結果: " + books.size() + "件の図書が見つかりました");
-			
 		} catch (SQLException | ClassNotFoundException e) {
-			System.err.println("✗ 図書の検索に失敗しました");
+			
 			e.printStackTrace();
+			
 		}
 		
 		return books;
 	}
-	
+
 	/**
 	 * タイトルのみで検索
 	*/

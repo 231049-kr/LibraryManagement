@@ -17,11 +17,6 @@ import model.User;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
-    public LoginServlet() {
-       
-    }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,7 +36,8 @@ public class LoginServlet extends HttpServlet {
 	    
 	    // バリデーション: 両方の入力値が必須
 	    if (id == null || id.isEmpty() || pass == null || pass.isEmpty()) {
-	        request.setAttribute("error", "IDとパスワードを入力してください");
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+		    dispatcher.forward(request, response);
 	    } else {
 	        User user = new User();
 	        user.setId(id);
@@ -54,8 +50,6 @@ public class LoginServlet extends HttpServlet {
 	            HttpSession session = request.getSession();
 	            session.setAttribute("loginUser", loginUser);
 	            url = "WEB-INF/jsp/Usermenuscreen.jsp";
-	        } else {
-	            request.setAttribute("error", "ログイン情報が正しくありません");
 	        }
 	    }
 	    

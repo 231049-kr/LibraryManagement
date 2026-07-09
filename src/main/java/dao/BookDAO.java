@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,23 +33,16 @@ public class BookDAO {
 	
 	private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
 	
-	/**
-	 * MySQLに接続します
-	 * 
-	 * @return データベース接続オブジェクト
-	 * @throws SQLException データベース接続エラー
-	 * @throws ClassNotFoundException JDBCドライバが見つからない
-	 */
+	
 	public static Connection getConnection() throws SQLException, ClassNotFoundException {
 		Class.forName(DB_DRIVER);
 		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 	}
 	
 	/**
-	 * 図書情報をデータベースに挿入します
+	 * 図書情報をデータベースに挿入
 	 * 
 	 * @param book 挿入する図書オブジェクト
-	 * @return 挿入に成功したかどうか（true：成功、false：失敗）
 	 */
 	public static boolean insertBook(Book book) {
 		String sql = "INSERT INTO books (title, author, publisher, category, quantity) VALUES (?, ?, ?, ?, ?)";
@@ -116,93 +108,8 @@ public class BookDAO {
 			e.printStackTrace();
 			return null;
 		}
-	}
 	
-	/**
-	 * カテゴリーで図書情報を検索します
-	 * 
-	 * @param category 検索するカテゴリー
-	 * @return 図書オブジェクトのリスト
-	 */
-	public static List<Book> selectBooksByCategory(String category) {
-		List<Book> books = new ArrayList<>();
-		String sql = "SELECT book_id, title, author, publisher, category, quantity, created_at FROM books WHERE category = ?";
-		
-		try (Connection conn = getConnection();
-			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			
-			pstmt.setString(1, category);
-			ResultSet rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-				Book book = new Book();
-				book.setBookId(rs.getInt("book_id"));
-				book.setTitle(rs.getString("title"));
-				book.setAuthor(rs.getString("author"));
-				book.setPublisher(rs.getString("publisher"));
-				book.setCategory(rs.getString("category"));
-				book.setQuantity(rs.getInt("quantity"));
-				
-				Timestamp ts = rs.getTimestamp("created_at");
-				if (ts != null) {
-					book.setCreatedAt(ts.toLocalDateTime());
-				}
-				
-				books.add(book);
-			}
-			
-			System.out.println("✓ カテゴリー'" + category + "' の図書 " + books.size() + "件が取得されました");
-			return books;
-			
-		} catch (SQLException | ClassNotFoundException e) {
-			System.err.println("✗ 図書の検索に失敗しました");
-			e.printStackTrace();
-			return books;
 		}
-	}
-	
-	/**
-	 * タイトルで図書情報を検索します（部分一致）
-	 * 
-	 * @param titleKeyword 検索するキーワード
-	 * @return 図書オブジェクトのリスト
-	 */
-	public static List<Book> selectBooksByTitleKeyword(String titleKeyword) {
-		List<Book> books = new ArrayList<>();
-		String sql = "SELECT book_id, title, author, publisher, category, quantity, created_at FROM books WHERE title LIKE ?";
-		
-		try (Connection conn = getConnection();
-			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			
-			pstmt.setString(1, "%" + titleKeyword + "%");
-			ResultSet rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-				Book book = new Book();
-				book.setBookId(rs.getInt("book_id"));
-				book.setTitle(rs.getString("title"));
-				book.setAuthor(rs.getString("author"));
-				book.setPublisher(rs.getString("publisher"));
-				book.setCategory(rs.getString("category"));
-				book.setQuantity(rs.getInt("quantity"));
-				
-				Timestamp ts = rs.getTimestamp("created_at");
-				if (ts != null) {
-					book.setCreatedAt(ts.toLocalDateTime());
-				}
-				
-				books.add(book);
-			}
-			
-			System.out.println("✓ キーワード'" + titleKeyword + "' で " + books.size() + "件が見つかりました");
-			return books;
-			
-		} catch (SQLException | ClassNotFoundException e) {
-			System.err.println("✗ 図書の検索に失敗しました");
-			e.printStackTrace();
-			return books;
-		}
-	}
 	
 	/**
 	 * すべての図書情報を取得します
@@ -279,7 +186,7 @@ public class BookDAO {
 	}
 	
 	/**
-	 * 図書情報を削除します
+	 * 図書情報を削除
 	 * 
 	 * @param bookId 削除する図書ID
 	 * @return 削除に成功したかどうか
@@ -304,34 +211,6 @@ public class BookDAO {
 			System.err.println("✗ 図書の削除に失敗しました");
 			e.printStackTrace();
 			return false;
-		}
-	}
-	
-	/**
-	 * テーブルが存在しない場合は作成します
-	 * 初期化時に一度だけ実行してください
-	 */
-	public static void createTableIfNotExists() {
-		String sql = "CREATE TABLE IF NOT EXISTS books (" +
-					 "book_id INT NOT NULL AUTO_INCREMENT COMMENT '図書ID'," +
-					 "title VARCHAR(255) NOT NULL COMMENT '図書タイトル'," +
-					 "author VARCHAR(100) NOT NULL COMMENT '著者名'," +
-					 "publisher VARCHAR(100) NOT NULL COMMENT '出版社'," +
-					 "category VARCHAR(50) NOT NULL COMMENT 'カテゴリー'," +
-					 "quantity INT NOT NULL DEFAULT 1 COMMENT '数量'," +
-					 "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時'," +
-					 "PRIMARY KEY (book_id)" +
-					 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
-		
-		try (Connection conn = getConnection();
-			 Statement stmt = conn.createStatement()) {
-			
-			stmt.executeUpdate(sql);
-			System.out.println("✓ テーブル 'books' の確認/作成が完了しました");
-			
-		} catch (SQLException | ClassNotFoundException e) {
-			System.err.println("✗ テーブルの作成に失敗しました");
-			e.printStackTrace();
 		}
 	}
 }

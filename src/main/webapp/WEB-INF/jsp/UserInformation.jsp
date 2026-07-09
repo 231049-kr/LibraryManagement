@@ -8,5 +8,7 @@
 </head>
 <body>
 <h1>利用者情報</h1>
+ユーザーID:${sessionScope.loginUser.id }
+<p>${sessionScope.loginUser}</p>
 </body>
 </html>

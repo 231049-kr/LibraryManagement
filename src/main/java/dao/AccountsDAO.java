@@ -39,8 +39,6 @@ public class AccountsDAO {
 			ResultSet rs = pStmt.executeQuery();
 			
 			if(rs.next()) {
-				//ユーザデータが存在すればデータを取得
-				//そのユーザーを表すAccountインスタンスを生成
 				String id = rs.getString("");
 				String pass = rs.getString("");
 				String name = rs.getString("");
