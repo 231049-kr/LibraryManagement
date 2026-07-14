@@ -26,13 +26,14 @@ public class Reserve extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-		String name = request.getParameter("id");
+		String publisher = request.getParameter("publisher");
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
 		String category = request.getParameter("category");
+		String book_id = request.getParameter("book_id");
 		
 		BookSearchDAO dao = new BookSearchDAO();
-		List<Book> books = dao.search(title, author, category);
+		List<Book> books = dao.search(book_id, title, author, category, publisher);
 		
 		request.setAttribute("books", books);
 		

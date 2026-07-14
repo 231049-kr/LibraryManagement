@@ -24,7 +24,7 @@ public class BookSearchDAO {
 	 * @param category カテゴリー - nullまたは空文字列で条件なし
 	 * @return マッチした図書オブジェクトのリスト
 	 */
-	public List<Book> search(String title, String author, String category) {
+	public List<Book> search(String book_id,String title, String author, String category, String publisher) {
 		List<Book> books = new ArrayList<>();
 		
 		// SQLの動的構築
@@ -33,6 +33,10 @@ public class BookSearchDAO {
 		);
 		
 		// 条件を追加
+		if(book_id != null && !book_id.isEmpty()) {
+			sql.append(" AND book_id = ?");
+		}
+		
 		if (title != null && !title.isEmpty()) {
 			sql.append(" AND title LIKE ?");
 		}
@@ -45,26 +49,36 @@ public class BookSearchDAO {
 			sql.append(" AND category LIKE ?");
 		}
 		
+		if (publisher != null && !publisher.isEmpty()) {
+			sql.append(" AND publisher LIKE ?");
+		}
+		
 		sql.append(" ORDER BY book_id DESC");
 		
 		try (Connection conn = BookDAO.getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
 			
-			// パラメータをセット
 			int index = 1;
-			
+
+			if (book_id != null && !book_id.isEmpty()) {
+			    pstmt.setString(index++, "%" + book_id + "%");
+			}
+
 			if (title != null && !title.isEmpty()) {
-				pstmt.setString(index++, "%" + title + "%");
+			    pstmt.setString(index++, "%" + title + "%");
 			}
-			
+
 			if (author != null && !author.isEmpty()) {
-				pstmt.setString(index++, "%" + author + "%");
+			    pstmt.setString(index++, "%" + author + "%");
 			}
-			
+
 			if (category != null && !category.isEmpty()) {
-				pstmt.setString(index++, "%" + category + "%");
+			    pstmt.setString(index++, "%" + category + "%");
 			}
-			
+
+			if (publisher != null && !publisher.isEmpty()) {
+			    pstmt.setString(index++, "%" + publisher + "%");
+			}
 			// クエリ実行
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -94,52 +108,5 @@ public class BookSearchDAO {
 		}
 		
 		return books;
-	}
-
-	/**
-	 * タイトルのみで検索
-	*/
-	public List<Book> searchByTitle(String title) {
-		return search(title, null, null);
-	}
-	
-	/**
-	 * 著者名のみで
-	 
-	 */
-	public List<Book> searchByAuthor(String author) {
-		return search(null, author, null);
-	}
-	
-	/**
-	 * カテゴリーのみで検索
-	
-	 */
-	public List<Book> searchByCategory(String category) {
-		return search(null, null, category);
-	}
-	
-	/**
-	 * タイトルと著者で検索
-	
-	 */
-	public List<Book> searchByTitleAndAuthor(String title, String author) {
-		return search(title, author, null);
-	}
-	
-	/**
-	 * タイトルとカテゴリーで検索
-	
-	 */
-	public List<Book> searchByTitleAndCategory(String title, String category) {
-		return search(title, null, category);
-	}
-	
-	/**
-	 * 著者とカテゴリーで検索
-	
-	 */
-	public List<Book> searchByAuthorAndCategory(String author, String category) {
-		return search(null, author, category);
 	}
 }
