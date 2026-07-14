@@ -23,6 +23,6 @@
     </tr>
   </c:forEach>
 </table>
-<a href="Usermenuscreen.jsp">メニューに戻る</a>
+<a href="UserMenuServlet">メニューに戻る</a>
 </body>
 </html>
