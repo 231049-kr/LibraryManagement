@@ -12,6 +12,23 @@
 
 <p>予約を登録しますか？</p>
 
+ <table border="1">
+  <tr>
+    <th>書籍ID</th>
+    <th>タイトル</th>
+    <th>著者</th>
+    <th>カテゴリ</th>
+  </tr>
+  <c:forEach var="book" items="${books}">
+    <tr>
+      <td>${book.id}</td>
+      <td>${book.title}</td>
+      <td>${book.author}</td>
+      <td>${book.category}</td>
+    </tr>
+  </c:forEach>
+</table>
+
 <form action="ReserveCompleteServlet"method="get">
 	<input type="submit"value="登録">
 </form>

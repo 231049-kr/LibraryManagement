@@ -10,5 +10,8 @@
 <h1>利用者情報</h1>
 ユーザーID:${sessionScope.loginUser.id }
 <p>${sessionScope.loginUser}</p>
+
+<a href="UserMenuServlet">メニューへ戻る</a>
+
 </body>
 </html>
