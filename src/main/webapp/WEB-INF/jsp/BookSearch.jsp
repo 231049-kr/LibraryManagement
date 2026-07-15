@@ -8,9 +8,8 @@
 <body>
 <h1>図書検索</h1>
 
-<form action="BookSearchResult" method="get">
 
-<form action="" method="post">
+<form action="BookSearchResult" method="post">
 書名 : <input type="text" name="title"><br>
 著者 : <input type="text" name="author"><br>
 分類 : <input type="text" name="category"><br>
