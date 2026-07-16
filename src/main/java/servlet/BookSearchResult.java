@@ -32,7 +32,7 @@ public class BookSearchResult extends HttpServlet {
 		BookSearchDAO dao = new BookSearchDAO();
 		
 		List<Book> books = dao.search(book_id, title, author, category, publisher);
-		
+		System.out.println("検索結果" + books.size());
 		request.setAttribute("books", books);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/BookSearchResult.jsp");

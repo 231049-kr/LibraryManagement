@@ -10,7 +10,7 @@ import model.User;
 
 public class AccountsDAO {
 	
-	private final String JDBC_URL = "後で記入";
+	private final String JDBC_URL = "jdbc:mysql://localhost/tutorial_memo_db";
 	private final String DB_USER = "root";
 	private final String DB_PASS = "password";
 	
@@ -19,7 +19,7 @@ public class AccountsDAO {
 		//JDBCドライバを読み込む
 		try {
 			
-			Class.forName("org.h2.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 			
 		} catch(ClassNotFoundException e) {
 			
