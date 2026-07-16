@@ -80,6 +80,7 @@ public class BookSearchDAO {
 			    pstmt.setString(index++, "%" + publisher + "%");
 			}
 			// クエリ実行
+			
 			ResultSet rs = pstmt.executeQuery();
 			
 			// 結果を処理
@@ -106,7 +107,6 @@ public class BookSearchDAO {
 			e.printStackTrace();
 			
 		}
-		
 		return books;
 	}
 }

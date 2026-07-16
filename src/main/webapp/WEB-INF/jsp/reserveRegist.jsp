@@ -13,10 +13,8 @@
 
 <p>予約を登録しますか？</p>
 
-<form action="ReserveCompleteServlet"method="get">
-	<input type="submit"value="登録">
-<form action="ReserveCompleteServlet" method="post">
 
+<form action="ReserveCompleteServlet" method="post">
 <input type="submit" value="登録">
 </form>
 
