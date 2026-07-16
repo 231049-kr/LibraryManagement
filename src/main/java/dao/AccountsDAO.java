@@ -10,7 +10,7 @@ import model.User;
 
 public class AccountsDAO {
 	
-	private final String JDBC_URL = "後で記入";
+	private final String JDBC_URL = "jdbc:mysql://localhost:3306/tutorial_memo_db";
 	private final String DB_USER = "root";
 	private final String DB_PASS = "password";
 	
@@ -19,7 +19,7 @@ public class AccountsDAO {
 		//JDBCドライバを読み込む
 		try {
 			
-			Class.forName("org.h2.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 		} catch(ClassNotFoundException e) {
 			
@@ -30,7 +30,7 @@ public class AccountsDAO {
 		try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)){
 			
 			//SELECT文
-			String sql = "SELECT //この先記入";
+			String sql = "SELECT memo_id,title FROM tutrial_memo_db";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, user.getId());
 			pStmt.setString(2, user.getPass());

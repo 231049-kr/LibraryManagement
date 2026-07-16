@@ -46,9 +46,15 @@
 
     <h1>予約登録</h1>
 
+<<<<<<< HEAD
     <p>予約を登録しますか？</p>
 
     <form action="ReserveCompleteServlet" method="post">
+=======
+<form action="ReserveCompleteServlet"method="get">
+	<input type="submit"value="登録">
+<form action="ReserveCompleteServlet" method="post">
+>>>>>>> branch 'master' of https://github.com/231049-kr/LibraryManagement
 
         <input type="submit" value="登録">
 
