@@ -13,15 +13,11 @@
 
 <p>予約を登録しますか？</p>
 
-<<<<<<< HEAD
 <form action="ReserveCompleteServlet"method="get">
 	<input type="submit"value="登録">
-=======
-
 <form action="ReserveCompleteServlet" method="post">
 
 <input type="submit" value="登録">
->>>>>>> branch 'master' of https://github.com/231049-kr/LibraryManagement
 </form>
 
 </body>
