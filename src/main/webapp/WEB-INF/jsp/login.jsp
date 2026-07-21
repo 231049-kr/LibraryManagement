@@ -54,10 +54,6 @@ pageEncoding="UTF-8"%>
 
 <form action="LoginServlet" method="post">
 
-ID : <input type="text" name="id"><br>
-パスワード : <input type="password" name="password"><br>
-<input type="submit" value="ログイン">
-
     ID：
     <input type="text" name="name">
     <br>

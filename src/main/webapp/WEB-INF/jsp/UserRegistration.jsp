@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
 
 <h1>ユーザー登録</h1>
 
-<form action="UserRegister" method="post">
+<form action="" method="post">
 <p>
     氏名：
     <input type="text" name="name">

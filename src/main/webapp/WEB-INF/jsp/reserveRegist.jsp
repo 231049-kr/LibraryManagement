@@ -55,11 +55,8 @@
 
 <form action="ReserveCompleteServlet" method="post">
 <input type="submit" value="登録">
+
 </form>
-
-        <input type="submit" value="登録">
-
-    </form>
 
 </div>
 
